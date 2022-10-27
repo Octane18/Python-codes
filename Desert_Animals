@@ -1,0 +1,60 @@
+import random
+import time
+class Animal:
+    Score = 0
+    Across = 0 
+    Down = 0
+    def __init__(self):
+        self.Across = random.randint(0,39)
+        self.Down = random.randint(0,39)
+        while Desert.Grid[self.Across][self.Down] != ". ":
+            self.Across = random.randint(0,39)
+            self.Down = random.randint(0,39)
+        Desert.Grid[self.Across][self.Down] = "A"
+        self.Score = 0
+    def EatFood(self,X,Y):
+        Desert.Grid[X][Y] = "A"
+        self.Score += 1 
+        Desert.GenerateFood()
+        self.__init__()
+    def Move(self,X,Y):
+        DX= X + Desert.GenerateChangeInCoordinate(X)
+        DY= Y + Desert.GenerateChangeInCoordinate(Y)
+        if Desert.Grid[NX][NY] == "F":
+            self.EatFood(DX,DY)
+        else: 
+            Desert.Grid[DX][DY] = "A"
+class Desert:
+    Grid = [[". " for Y in range(40)] for X in range(40)]
+    StepCounter = 0
+    AnimalList = []
+    NumberOfAnimals = 0
+    def __init__(self):
+        self.AnimalList = [Animal() for x in range(5)]
+        self.GenrateFood()
+        self.StepCounter = 0
+    def GenrateFood(self):
+        x = random.randint(0,39)
+        y = random.randint(0,39)
+        while self.Grid[x][y] != ". ":
+            x = random.randint(0,39)
+            y = random.randint(0,39)
+        self.Grid[x][y] = "F "
+    def GenerateChnageInCoordinate(self, C):
+        if C == 0:
+            return random.randint(0,1)
+        elif C ==  40:
+            return random.randint(-1,0)
+        else:
+            return random.randint(-1,1)
+        
+    def DisplayGrid(self):
+        x = ""
+        for Y  in range(40):
+            for X in range(40):
+                x = x + self.Grid[X][Y]
+            print(x)
+            x = ""
+
+desert = Desert()
+desert.DisplayGrid()
