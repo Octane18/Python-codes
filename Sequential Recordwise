@@ -1,0 +1,64 @@
+import os
+def addSeqRecwise():
+    ID = int(input("Enter ID (-1 for ending): "))
+    found = searchSeqRecwise(ID)
+    if found == False and ID != -1:
+        sf = open("FileRecWise.txt", "rt")
+        tf = open("FileRecWiseT.txt", "wt")
+        added = False
+        Name = input("Enter name: ")
+        Fee = input("Enter fees: ")
+        thisLine = sf.readline()
+        while thisLine != "":
+            hcount = 0
+            stID = ""
+            stName = ""
+            stFee = ""
+            for x in range(len(thisLine)):
+                thisChar = thisLine[x]
+                if thisChar == "#":
+                    hcount += 1
+                elif hcount == 0:
+                    stID = stID + thisChar
+                elif hcount == 1:
+                    stName = stName + thisChar
+                else:
+                    stFee = stFee + thisChar
+            if int(stID) > ID and not added:
+                added = True
+                tf.write(str(ID) + "#" + Name + "#" + Fee + "\n")
+            tf.write(stID + "#" + stName + "#" + stFee + "\n")
+            thisLine = sf.readline()
+        if not added:
+            tf.write(str(ID) + "#" +  Name + "#" + Fee + "\n")
+        sf.close()
+        tf.close()
+    if found == True:
+        print("record is already present")
+    else:
+        os.remove("FileRecWise.txt")
+        os.rename("FileRecWiseT.txt", "FileRecWise.txt")
+def searchSeqRecwise(ID):
+    sf = open("FileRecWise.txt", "rt")
+    thisLine = sf.readline()
+    found = False
+    while thisLine != "" and found == False:
+        hcount = 0
+        stID = ""
+        stName = ""
+        stFee = ""
+        for x in range(len(thisLine)):
+            thisChar = thisLine[x]
+            if thisChar == "#":
+                hcount += 1
+            elif hcount == 0:
+                stID = stID + thisChar
+            elif hcount == 1:
+                stName = stName + thisChar
+            else:
+                stFee = stFee + thisChar
+        if int(stID) == ID:
+            found = True
+        thisLine = sf.readline()
+    return found
+addSeqRecwise()
