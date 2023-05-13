@@ -34,7 +34,7 @@ def pullLL(data):
             PN = CN 
             CN = LL[CN].Pointer
         if CN == Root:
-            Root = -1
+            Root = LL[CN].Pointer
             LL[CN].Pointer = FP
             FP = CN 
         elif LL[CN].data != data:
@@ -72,3 +72,4 @@ while Option != -1:
         pullLL(data)
     elif Option == 3: printLL()
     Option = int(input("What option: "))
+
