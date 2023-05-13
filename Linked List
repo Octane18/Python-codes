@@ -37,7 +37,7 @@ def pullLL(data):
             Root = LL[CN].Pointer
             LL[CN].Pointer = FP
             FP = CN 
-        elif LL[CN].data != data:
+        elif CN == -1:
             print("data not found")
         else:
             LL[PN].Pointer = LL[CN].Pointer 
