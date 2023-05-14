@@ -1,0 +1,78 @@
+class node:
+    def __init__(self, data, Pointer):
+        self.data = data
+        self.Pointer = Pointer
+
+def pushLL(data):
+    global FP, SP, LL
+    if FP == -1:
+        print("Error list is full")
+    else: 
+        NN = FP 
+        LL[NN].data = data 
+        FP = LL[NN].Pointer 
+        PN = 0
+        CN = SP
+        while LL[CN].data < data and CN != -1:
+            PN = CN 
+            CN = LL[CN].Pointer 
+        if SP == -1:
+            LL[NN].Pointer = SP 
+            SP = NN
+        elif CN == SP:
+            LL[NN].Pointer = SP
+            SP = NN 
+        else: 
+            LL[PN].Pointer = NN
+            LL[NN].Pointer = CN
+        
+
+def pullLL(data):
+    global FP, SP, LL
+    if FP == 0: 
+        print("Error list is empty")
+    else: 
+        PN = -1
+        CN = SP 
+        while LL[CN].data != data and CN != -1:
+            PN = CN 
+            CN = LL[CN].Pointer
+        if CN == SP:
+            SP = LL[CN].Pointer
+            LL[CN].Pointer = FP
+            FP = CN 
+        elif CN == -1:
+            print("data not found")
+        else:
+            LL[PN].Pointer = LL[CN].Pointer 
+            LL[CN].Pointer = FP 
+            FP = CN
+                   
+
+
+def printLL():
+    global SP, FP
+    for x in range(10):
+        print(LL[x].data , LL[x].Pointer, sep= '    ')
+    print(FP, SP)
+
+
+
+
+
+FP = 0
+SP = -1
+LL = []
+for x in range(9):
+    LL.append(node(0, x+1))
+LL.append(node(0, -1))
+Option = int(input("What option: "))
+while Option != -1:
+    if Option == 1:
+        data = int(input("Enter data: "))
+        pushLL(data)
+    elif Option == 2:
+        data = int(input("Enter data to delete: "))
+        pullLL(data)
+    elif Option == 3: printLL()
+    Option = int(input("What option: "))
