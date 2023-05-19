@@ -1,0 +1,55 @@
+class TreasureChest:
+    def __init__(self, question, answer, points):
+        #Private question As String
+        #Private Answer As integer 
+        #Private points As integer 
+        self.__question = question
+        self.__answer = answer 
+        self.__points = points 
+    def getQuestion(self):
+        return self.__question 
+    def checkAnswer(self, Answer):
+        if int(self.__answer) == Answer: return True
+        return False 
+    def getPoints(self, NumberAttempts):
+        if NumberAttempts == 1:
+            return self.__points 
+        elif NumberAttempts == 2:
+            return (self.__points/2)
+        elif NumberAttempts == 3 or 4:
+            return (self.__points/4)
+        else: return 0
+        
+
+def readData():
+    global arrayTreasure
+    try:
+        file = open("TreasureChestData.txt", 'rt')
+        Question = file.readline().strip()
+        while Question != "":
+            Answer = file.readline().strip()
+            Points = file.readline().strip()
+            arrayTreasure.append(TreasureChest(Question, Answer, Points))
+            Question = file.readline().strip()
+    except FileNotFoundError:
+        print("Fuck you")
+        pass 
+
+#main 
+arrayTreasure = []
+readData()
+QNo = int(input("WHAT?: "))
+while 0 > QNo < 4:
+    print("Fuck you")
+    QNo = int(input("WHAT?: "))
+print(arrayTreasure[QNo].getQuestion())
+Answer = int(input("WHAT THE FUCK: "))
+Correct = arrayTreasure[QNo].checkAnswer(Answer)
+Attempts = 1
+while not Correct:
+    print(arrayTreasure[QNo].getQuestion())
+    Answer = int(input("WHAT THE FUCK: "))
+    Correct = arrayTreasure[QNo].checkAnswer(Answer)
+    Attempts += 1 
+Points = arrayTreasure[QNo].getPoints(Attempts)
+print(Points)
