@@ -1,0 +1,154 @@
+question 1 
+
+def Unknown(X, Y):
+    if X < Y: 
+        print(X+Y)
+        return Unknown(X+1, Y)*2
+    else:
+         if X == Y:
+             return 1 
+         else:
+             print(X+Y)
+             return Unknown(X-1, Y)//2
+
+
+def IterativeUnknown(X,Y):
+    if X < Y:
+        count = 0
+        while X != Y:
+            print(X+Y)
+            X += 1 
+            count += 1 
+        return 2**count 
+    elif X > Y:
+        count = 0
+        while X != Y:
+            print(X+Y)
+            X -= 1 
+            count += 1 
+        return round(1/2**count) 
+    else: 
+        return 1 
+            
+         
+#main 
+print("X=10, Y=15")
+value = IterativeUnknown(10,15)
+print(value)
+print("X=10, Y=10")
+value = IterativeUnknown(10,10)
+print(value)
+print("X=15, Y=10")
+value = IterativeUnknown(15,10)
+print(value)
+
+#question 2 
+class Picture:
+    def __init__(self,Description, Width, Height, FrameColour):
+        #PRIVATE Description As String
+        #PRIVATE Width As Integer 
+        #PRIAVTE Height As Integer 
+        #PRIVATE FrameColour As String 
+        self.__Description = Description
+        self.__Height = Height
+        self.__Width = Width
+        self.__FrameColor = FrameColour
+    def getDescription(self):
+        return self.__Description
+    def getHeight(self):
+        return self.__Height
+    def getWidth(self):
+        return self.__Width
+    def getColour(self):
+        return self.__FrameColor
+    def setDescriptiom(self,NewDescription):
+        self.__Description =  NewDescription
+def ReadData():
+    global arrayPictures
+    try:
+        File = open("Pictures.txt", 'rt')
+        Count = 0
+        Description = File.readline().strip()
+        while Description != "":
+            Width = File.readline().strip()
+            Height = File.readline().strip()
+            FrameColour = File.readline().strip()
+            arrayPictures[Count] = Picture(Description, Width, Height, FrameColour)
+            Count += 1
+            Description= File.readline().strip()
+        return Count
+    except(FileNotFoundError):
+        print("File Not Found.")
+
+#main
+arrayPictures = ["" for x in range(100)]
+Count =  ReadData()
+FrameColour = input("Enter frame colour: ")
+MaximumWidth = int(input("Enter maximum width: "))
+MaximumHeight = int(input("Enter maximum height: "))
+for x in range(Count):
+    Colour = arrayPictures[x].getColour()
+    Width = arrayPictures[x].getWidth()
+    Height = arrayPictures[x].getHeight()
+    if Colour.upper() == FrameColour.upper():
+        if int(Width) <= MaximumWidth and int(Height) <= MaximumHeight:
+            print(arrayPictures[x].getDescription(), Width, Height)
+
+#question 3
+
+def AddNode():
+    global RootPointer, FreeNode, ArrayNodes
+    NodeData = int(input("Enter data to add: "))
+    if FreeNode <= 19:
+        ArrayNodes[FreeNode][0]= -1
+        ArrayNodes[FreeNode][1]= NodeData
+        ArrayNodes[FreeNode][2] = -1
+        if RootPointer == -1:
+            RootPointer = 0
+        else:
+            Placed = False
+            CurrentNode = RootPointer
+            while not Placed:
+                if NodeData < ArrayNodes[CurrentNode][1]:
+                    if ArrayNodes[CurrentNode][0] == -1:
+                        ArrayNodes[CurrentNode][0] = FreeNode
+                        Placed = True
+                    else:
+                        CurrentNode = ArrayNodes[CurrentNode][0]
+                else:
+                    if ArrayNodes[CurrentNode][2] == -1:
+                        ArrayNodes[CurrentNode][2]= FreeNode
+                        Placed = True
+                    else:
+                        CurrentNode = ArrayNodes[CurrentNode][2]
+        FreeNode += 1
+    else:
+        print("Tree is full")
+
+def PrintAll():
+    for x in range(20):
+        print(ArrayNodes[x][0], ArrayNodes[x][1], ArrayNodes[x][2], sep = '  ')
+
+def InOrder(Pointer):
+    if Pointer == -1: return 1
+    else:
+        InOrder(ArrayNodes[Pointer][0])
+        print(ArrayNodes[Pointer][1])
+        InOrder(ArrayNodes[Pointer][2])
+
+
+
+#main
+#Root Pointer As Integer
+#FreeNode As Integer
+# ArrayNodes As Array[3, 20] Of Integer
+ArrayNodes = [[-1 for x in range(3)] for y in range(20)]
+RootPointer = -1
+FreeNode = 0
+for x in range(10):
+    AddNode()
+PrintAll()
+print(RootPointer)
+InOrder(RootPointer)
+
+
