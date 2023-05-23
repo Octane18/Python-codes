@@ -1,0 +1,124 @@
+#Question 1 
+def printAll():
+    for x in range(10):
+        print(StackData[x])
+        
+
+def Push(Value):
+    global StackData, StackPointer 
+    if StackPointer == len(StackData):
+        return False 
+    else:
+        StackData[StackPointer] = Value
+        StackPointer += 1 
+        return True
+    
+def Pop():
+    global StackData, StackPointer
+    if StackPointer == 0:
+        return -1 
+    else:
+        StackPointer -= 1 
+        ReturnVal = StackData[StackPointer]
+        StackData[StackPointer] = 0
+        return ReturnVal
+
+#main 
+#StackData As Array[10] of Integer 
+#Stack Pointer As Integer 
+StackData = [0 for x in range(10)]
+StackPointer = 0
+Counter = 0
+while Counter <= 10:
+    Value = int(input("Enter number: "))
+    Added = Push(Value)
+    if Added:
+        print("Value added")
+    else:
+        print("Skill issue")
+    Counter += 1 
+printAll()
+Pop()
+Pop()
+printAll()
+
+#question 2 
+
+import random
+
+def printArray():
+    for x in range(10):
+        Concat = ""
+        for y in range(10):
+            Concat = Concat +"  "+ str(ArrayData[x][y])
+        print(Concat)
+            
+
+def BinarySearch(SearchArray, Lower, Upper, SearchValue):
+    if Upper >= Lower:
+        Mid = (Lower+Upper-1)// 2 
+        if SearchArray[0][Mid] == SearchValue:
+            return Mid
+        else:
+            if SearchArray[0][Mid] > SearchValue:
+                return BinarySearch(SearchArray, Lower, Mid-1, SearchValue)
+            else:
+                return BinarySearch(SearchArray, Mid+1, Upper, SearchValue)
+    return -1 
+#main
+
+ArrayData = [[random.randint(1,100) for y in range(10)] for x in range(10)]
+ArrayLength = 10 
+for x in range(ArrayLength):
+    for y in range(ArrayLength-1):
+        for z in range(ArrayLength-y-1):
+            if ArrayData[x][z] > ArrayData[x][z+1]:
+                TempValue = ArrayData[x][z]
+                ArrayData[x][z] = ArrayData[x][z+1]
+                ArrayData[x][z+1] = TempValue
+
+printArray()
+Value = int(input("Enter value to search: "))
+Found = BinarySearch(ArrayData, 0, 10, Value)
+print(Found)
+
+
+#question 3 
+
+class Card:
+    def __init__(self, Number, Colour):
+        self.__Number = Number #As Integer 
+        self.__Colour = Colour #As String 
+    def GetNumber(self):
+        return self.__Number
+    def GetColour(self):
+        return self.__Colour
+
+def ChooseCard():
+    CardIndex = int(input("Enter index: "))
+    while 0 > CardIndex < 31:
+        print("Invalid entry beghairat")
+        CardIndex = int(input("Enter index: "))
+    while ArrayCard[CardIndex] in SelectedCards:
+        print("Card already selected")
+        CardIndex = int(input("Enter index: "))
+    SelectedCards.append(ArrayCard[CardIndex])
+    return CardIndex
+
+ArrayCard = [] #ArrayCard As Array[30] of Card
+File = open("CardValues.txt", 'rt')
+for x in range(30):
+    Number = File.readline().strip()
+    Colour = File.readline().strip()
+    ArrayCard.append(Card(Number, Colour))
+File.close()
+SelectedCards = []
+Player1 = []
+for x in range(4):
+    Index = ChooseCard()
+    Player1.append(ArrayCard[Index])
+
+for y in range(4):
+    Colour = Player1[y].GetColour()
+    Number = Player1[y].GetNumber()
+    print(Number, Colour)
