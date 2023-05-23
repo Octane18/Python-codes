@@ -1,0 +1,62 @@
+# Write your code here :-)
+class BTnode:
+    def __init__(self):
+        self.RP = 0
+        self.Data = ""
+        self.LP = 0
+
+BTList = [BTnode() for i in range(10)]
+fp = 0
+Root = -1
+AddLeft = False
+
+def init():
+    for x in range(10):
+        BTList[x].LP = -1
+        BTList[x].Data = " "
+        BTList[x].RP = x + 1
+    BTList[9].RP = -1
+
+def output():
+    for x in range(10):
+        print(BTList[x].LP, BTList[x].Data, BTList[x].RP)
+
+def BTinsert(val):
+    global fp, Root, AddLeft
+    if fp == -1:
+        print("Overflow")
+    else:
+        if Root == -1:
+            BTList[fp].Data = val
+            Root = fp
+            fp = BTList[fp].RP
+            BTList[Root].RP = -1
+        else:
+            BTList[fp].Data = val
+            NN = fp
+            fp = BTList[fp].RP
+            BTList[NN].RP = -1
+            CN = Root
+            while CN != -1:
+                if val > BTList[CN].Data:
+                    PN = CN
+                    CN = BTList[CN].RP
+                    AddLeft = False
+                else:
+                    PN = CN
+                    CN = BTList[CN].LP
+                    AddLeft = True
+            if AddLeft == True:
+                BTList[PN].LP = NN
+            else:
+                BTList[PN].RP = NN
+
+init()
+Option = int(input("What choice: "))
+while Option != 4:
+    if Option == 1:
+        x = input("What val to add: ")
+        BTinsert(x)
+    elif Option == 2:
+        output()
+    Option = int(input("What choice: "))
