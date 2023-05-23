@@ -1,0 +1,38 @@
+class Card:
+    def __init__(self, Number, Colour):
+        self.__Number = Number #As Integer 
+        self.__Colour = Colour #As String 
+    def GetNumber(self):
+        return self.__Number
+    def GetColour(self):
+        return self.__Colour
+
+def ChooseCard():
+    CardIndex = int(input("Enter index: "))
+    while 0 > CardIndex < 31:
+        print("Invalid entry beghairat")
+        CardIndex = int(input("Enter index: "))
+    while ArrayCard[CardIndex] in SelectedCards:
+        print("Card already selected")
+        CardIndex = int(input("Enter index: "))
+    SelectedCards.append(ArrayCard[CardIndex])
+    return CardIndex
+
+ArrayCard = [] #ArrayCard As Array[30] of Card
+File = open("CardValues.txt", 'rt')
+for x in range(30):
+    Number = File.readline().strip()
+    Colour = File.readline().strip()
+    ArrayCard.append(Card(Number, Colour))
+File.close()
+SelectedCards = []
+Player1 = []
+for x in range(4):
+    Index = ChooseCard()
+    Player1.append(ArrayCard[Index])
+
+for y in range(4):
+    Colour = Player1[y].GetColour()
+    Number = Player1[y].GetNumber()
+    print(Number, Colour)
+    
