@@ -1,0 +1,129 @@
+#question 1 
+
+def Initialise():
+    global Jobs, NumberOfJobs
+    for x in range(100):
+        Jobs[x][0] = -1 
+        Jobs[x][1] = -1 
+    NumberOfJobs = 0
+
+def Addjob(JobNumber, Priorty):
+    global NumberOfJobs, Jobs
+    if NumberOfJobs == 100:
+        print("Not Added")
+    else:
+        Jobs[NumberOfJobs][0], Jobs[NumberOfJobs][1] = JobNumber, Priorty
+        NumberOfJobs += 1 
+        print("Added")    
+
+
+def InsertionSort():
+    global Jobs, NumberOfJobs
+    for Index in range(1, NumberOfJobs):
+        Temp1 = Jobs[Index][0]
+        Temp2 = Jobs[Index][1]
+        Counter = Index 
+        while Temp2 < Jobs[Counter-1][1] and Counter > 0:
+            Jobs[Counter][0], Jobs[Counter][1] = Jobs[Counter-1][0], Jobs[Counter-1][1] 
+            Counter -= 1 
+        Jobs[Counter][0], Jobs[Counter][1] = Temp1, Temp2 
+
+def PrintArray():
+    global Jobs, NumberOfJobs
+    for x in range(NumberOfJobs):
+        print(str(Jobs[x][0]) + " priority " + str(Jobs[x][1]))
+
+#main 
+Jobs = [[0 for y in range(2)]for x in range(100)] #As Integer
+NumberOfJobs = -1 #As Integer 
+Initialise()
+Addjob(12, 10)
+Addjob(526, 9)
+Addjob(33, 8)
+Addjob(12, 9)
+Addjob(78, 1)
+InsertionSort()
+PrintArray()
+
+#question 2 
+
+class Character:
+    def __init__(self, Name, XCoordinate, YCoordinate):
+        self.__Name = Name 
+        self.__XCoordinate = XCoordinate
+        self.__YCoordinate = YCoordinate
+    def GetName(self):
+        return self.__Name
+    def GetXCoordinate(self):
+        return self.__XCoordinate
+    def GetYCoordinate(self):
+        return self.__YCoordinate
+    def ChangePosition(self, XChange, YChange):
+        self.__XCoordinate = int(self.__XCoordinate) + XChange
+        self.__YCoordinate = int(self.__YCoordinate) + YChange 
+
+
+
+
+#main 
+File = open("Characters.txt", 'rt')
+CharacterArray = [] #CharacterArray As Array[10] Of Character 
+for x in range(10):
+    Name = File.readline().strip()
+    XCoordinate = File.readline().strip()
+    YCoordinate = File.readline().strip()
+    CharacterArray.append(Character(Name, XCoordinate, YCoordinate))
+File.close()
+Found = False 
+while not Found:
+    NameToSearch = input("Enter name: ")
+    for x in range(10):
+        if CharacterArray[x].GetName().upper() == NameToSearch.upper():
+            Index = x 
+            Found = True 
+
+Direction = input("Enter direction: ")
+while Direction != "A" and Direction != "W" and Direction != "S" and Direction != "D":
+    print("Invalid direction")
+    Direction = input("Enter direction: ")
+if Direction == 'A':
+    CharacterArray[Index].ChangePosition(-1, 0)
+elif Direction == 'W':
+    CharacterArray[Index].ChangePosition(0, 1)
+elif Direction == 'S':
+    CharacterArray[Index].ChangePosition(0, -1)
+else:
+    CharacterArray[Index].ChangePosition(1, 0)
+print(NameToSearch + " has changed coordinates to X = " + str(CharacterArray[Index].GetXCoordinate())+ " Y = " + str(CharacterArray[Index].GetYCoordinate()))
+
+
+
+#question 3 
+
+def Enqueue(Value):
+    global TailPointer, HeadPointer
+    if TailPointer == 100:
+        return False 
+    else: 
+        Queue[TailPointer] = Value 
+        TailPointer += 1 
+        return True 
+
+def RecursiveOutput(Start):
+    if Start == HeadPointer:
+        return 0
+    else:
+        return Queue[Start] + RecursiveOutput(Start-1)  
+#main 
+Queue= [0 for x in range(100)] #global Queue As Array[100] Of Integer 
+HeadPointer = -1 #Global As integer 
+TailPointer = 0 #Global As integer 
+
+for x in range(20):
+    Added = Enqueue(x+1)
+    if Added: print("Successful")
+    else: print("Unsuccessful")
+
+Total = RecursiveOutput(TailPointer-1)
+print(Total)
+
